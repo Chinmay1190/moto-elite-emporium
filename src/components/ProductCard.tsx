@@ -10,9 +10,10 @@ import { formatPrice } from "@/utils/price";
 type ProductCardProps = {
   product: ProductType;
   className?: string;
+  style?: React.CSSProperties;  // Add style prop to support inline styles
 };
 
-export default function ProductCard({ product, className = "" }: ProductCardProps) {
+export default function ProductCard({ product, className = "", style }: ProductCardProps) {
   const { addToCart, isInCart } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   
@@ -32,6 +33,7 @@ export default function ProductCard({ product, className = "" }: ProductCardProp
       className={`product-card group animate-fade-in ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={style} // Apply the style prop here
     >
       <Link to={`/product/${product.id}`} className="block h-full">
         <div className="relative overflow-hidden aspect-square">
