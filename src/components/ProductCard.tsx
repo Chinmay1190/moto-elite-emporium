@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { ProductType } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, ShoppingCart, Star, Eye } from "lucide-react";
 import { formatPrice } from "@/utils/price";
 import { toast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 type ProductCardProps = {
   product: ProductType;
@@ -42,7 +43,7 @@ export default function ProductCard({ product, className = "", style }: ProductC
       className={`product-card group animate-fade-in ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={style} // Apply the style prop here
+      style={style}
     >
       <Link to={`/product/${product.id}`} className="block h-full">
         <div className="relative overflow-hidden aspect-square">
@@ -54,16 +55,16 @@ export default function ProductCard({ product, className = "", style }: ProductC
             }`}
           />
           {product.featured && (
-            <span className="absolute top-2 left-2 bg-primary px-3 py-1 text-xs font-bold rounded-full text-primary-foreground shadow-md">
+            <Badge variant="default" className="absolute top-2 left-2 shadow-lg animate-pulse-slow">
               Featured
-            </span>
+            </Badge>
           )}
           {product.discount && (
-            <span className="absolute top-2 right-2 bg-destructive px-3 py-1 text-xs font-bold rounded-full text-destructive-foreground shadow-md animate-pulse-slow">
+            <Badge variant="destructive" className="absolute top-2 right-2 shadow-lg">
               {product.discount}% OFF
-            </span>
+            </Badge>
           )}
-          <div className="product-actions absolute inset-0 bg-black/60 flex items-center justify-center space-x-3 opacity-0 translate-y-4 transition-all duration-300">
+          <div className="product-actions absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center space-x-3 opacity-0 translate-y-4 transition-all duration-300">
             <Button 
               variant="default" 
               size="sm" 
@@ -77,13 +78,16 @@ export default function ProductCard({ product, className = "", style }: ProductC
             <Button variant="outline" size="icon" className="rounded-full bg-background/20 hover:bg-background/40 shadow-lg">
               <Heart className="h-4 w-4" />
             </Button>
+            <Button variant="outline" size="icon" className="rounded-full bg-background/20 hover:bg-background/40 shadow-lg">
+              <Eye className="h-4 w-4" />
+            </Button>
           </div>
         </div>
         
         <div className="p-4 flex flex-col space-y-2">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-medium line-clamp-1 text-lg">{product.name}</h3>
+              <h3 className="font-medium line-clamp-1 text-lg group-hover:text-primary transition-colors">{product.name}</h3>
               <p className="text-sm text-muted-foreground">{product.brand}</p>
               <div className="flex items-center mt-1">
                 <div className="flex items-center mr-2">
@@ -131,4 +135,3 @@ export default function ProductCard({ product, className = "", style }: ProductC
     </div>
   );
 }
-
