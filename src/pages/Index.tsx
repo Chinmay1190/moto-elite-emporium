@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown, ChevronRight } from "lucide-react";
@@ -14,7 +13,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section with Total Product Count */}
       <section className="pt-28 pb-16 md:pt-40 md:pb-24 hero-gradient">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -26,6 +25,9 @@ export default function Index() {
                 Explore India's premium collection of high-performance 
                 superbikes from top global brands.
               </p>
+              <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg inline-block mb-8 animate-fade-in" style={{animationDelay: "0.3s"}}>
+                <span className="text-white font-medium">Browse our collection of <span className="text-primary font-bold">{allProducts.length} premium motorcycles</span></span>
+              </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in" style={{animationDelay: "0.4s"}}>
                 <Button size="lg" asChild className="font-medium text-lg">
                   <Link to="/shop">Shop Now</Link>
@@ -239,14 +241,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Call to Action */}
+      {/* Call to Action with Total Products Count */}
       <section className="py-16 hero-gradient text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
             Ready to Experience the Thrill?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Browse our extensive collection of premium superbikes and find your 
+            Browse our extensive collection of {allProducts.length} premium superbikes and find your 
             perfect ride today. Competitive prices and excellent after-sales service guaranteed.
           </p>
           <Button size="lg" variant="default" asChild className="font-medium text-lg bg-white text-primary hover:bg-white/90">
