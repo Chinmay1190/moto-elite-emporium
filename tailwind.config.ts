@@ -136,6 +136,14 @@ export default {
           '0%, 100%': { boxShadow: '0 0 0 0 rgba(255, 59, 48, 0.4)' },
           '50%': { boxShadow: '0 0 0 15px rgba(255, 59, 48, 0)' }
         },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        },
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' }
+        },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -148,12 +156,20 @@ export default {
         'slide-out-right': 'slide-out-right 0.3s ease-out',
         'bike-slide': 'bike-slide 1s ease-out',
         'pulse-light': 'pulse-light 2s infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'spin-slow': 'spin-slow 20s linear infinite',
 			},
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'Montserrat', 'sans-serif'],
         heading: ['Racing Sans One', 'sans-serif']
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-diagonal': 'linear-gradient(45deg, var(--tw-gradient-stops))',
+        'hero-pattern': "url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366?q=80&w=2000&auto=format&fit=crop')",
       }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+

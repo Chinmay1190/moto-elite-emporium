@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Racing+Sans+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Racing+Sans+One&family=Montserrat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -96,8 +96,12 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+  
   .product-card {
-    @apply relative flex flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground transition-all duration-300 hover:shadow-xl;
+    @apply relative flex flex-col overflow-hidden rounded-2xl border bg-card text-card-foreground transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
   }
   
   .product-card:hover .product-actions {
@@ -105,11 +109,19 @@
   }
   
   .hero-gradient {
-    @apply bg-gradient-to-r from-primary/80 via-primary to-primary/80 dark:from-primary/60 dark:via-primary dark:to-primary/60;
+    @apply bg-gradient-to-r from-primary/90 via-primary to-primary/90 dark:from-primary/70 dark:via-primary dark:to-primary/70;
   }
 
   .text-glow {
-    text-shadow: 0 0 10px rgba(var(--primary), 0.5);
+    text-shadow: 0 0 15px rgba(255, 59, 48, 0.5);
+  }
+  
+  .card-hover-effect {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10;
   }
   
   /* Custom scrollbar */
@@ -125,4 +137,25 @@
   ::-webkit-scrollbar-thumb {
     @apply bg-primary/50 rounded-full transition-colors hover:bg-primary;
   }
+  
+  /* Animation utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
 }
+

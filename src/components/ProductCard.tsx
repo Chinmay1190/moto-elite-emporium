@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { ProductType } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart, Star } from "lucide-react";
 import { formatPrice } from "@/utils/price";
+import { toast } from "@/components/ui/use-toast";
 
 type ProductCardProps = {
   product: ProductType;
@@ -21,12 +22,20 @@ export default function ProductCard({ product, className = "", style }: ProductC
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart`,
+      duration: 3000,
+    });
   };
   
   // Calculate discounted price
   const discountedPrice = product.discount 
     ? product.price - (product.price * product.discount / 100) 
     : null;
+
+  // Generate random rating between 3.5 and 5.0
+  const rating = (Math.random() * (5.0 - 3.5) + 3.5).toFixed(1);
 
   return (
     <div
@@ -45,27 +54,27 @@ export default function ProductCard({ product, className = "", style }: ProductC
             }`}
           />
           {product.featured && (
-            <span className="absolute top-2 left-2 bg-primary px-2 py-1 text-xs font-semibold rounded text-primary-foreground">
+            <span className="absolute top-2 left-2 bg-primary px-3 py-1 text-xs font-bold rounded-full text-primary-foreground shadow-md">
               Featured
             </span>
           )}
           {product.discount && (
-            <span className="absolute top-2 right-2 bg-destructive px-2 py-1 text-xs font-semibold rounded text-destructive-foreground">
+            <span className="absolute top-2 right-2 bg-destructive px-3 py-1 text-xs font-bold rounded-full text-destructive-foreground shadow-md animate-pulse-slow">
               {product.discount}% OFF
             </span>
           )}
-          <div className="product-actions absolute inset-0 bg-black/60 flex items-center justify-center space-x-2 opacity-0 translate-y-4 transition-all duration-300">
+          <div className="product-actions absolute inset-0 bg-black/60 flex items-center justify-center space-x-3 opacity-0 translate-y-4 transition-all duration-300">
             <Button 
               variant="default" 
               size="sm" 
-              className="rounded-full" 
+              className="rounded-full shadow-lg" 
               onClick={handleAddToCart}
               disabled={isInCart(product.id)}
             >
-              <ShoppingCart className="h-4 w-4 mr-1" />
+              <ShoppingCart className="h-4 w-4 mr-2" />
               {isInCart(product.id) ? "Added" : "Add to Cart"}
             </Button>
-            <Button variant="outline" size="icon" className="rounded-full bg-background/20 hover:bg-background/40">
+            <Button variant="outline" size="icon" className="rounded-full bg-background/20 hover:bg-background/40 shadow-lg">
               <Heart className="h-4 w-4" />
             </Button>
           </div>
@@ -74,13 +83,26 @@ export default function ProductCard({ product, className = "", style }: ProductC
         <div className="p-4 flex flex-col space-y-2">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-medium line-clamp-1">{product.name}</h3>
+              <h3 className="font-medium line-clamp-1 text-lg">{product.name}</h3>
               <p className="text-sm text-muted-foreground">{product.brand}</p>
+              <div className="flex items-center mt-1">
+                <div className="flex items-center mr-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`h-3 w-3 ${i < Math.floor(Number(rating)) 
+                        ? "text-amber-400 fill-amber-400" 
+                        : "text-gray-300"}`} 
+                    />
+                  ))}
+                </div>
+                <span className="text-xs text-muted-foreground">{rating}</span>
+              </div>
             </div>
             <div className="text-right">
               {discountedPrice ? (
                 <>
-                  <p className="font-semibold text-primary">
+                  <p className="font-bold text-primary">
                     {formatPrice(discountedPrice)}
                   </p>
                   <p className="text-sm text-muted-foreground line-through">
@@ -88,15 +110,19 @@ export default function ProductCard({ product, className = "", style }: ProductC
                   </p>
                 </>
               ) : (
-                <p className="font-semibold">{formatPrice(product.price)}</p>
+                <p className="font-bold">{formatPrice(product.price)}</p>
               )}
             </div>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <span className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded">
+            <span className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">
               {product.category}
             </span>
-            <span className={`text-xs ${product.stock > 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+            <span className={`text-xs px-2 py-0.5 rounded-full ${
+              product.stock > 0 
+                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" 
+                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+            }`}>
               {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
             </span>
           </div>
@@ -105,3 +131,4 @@ export default function ProductCard({ product, className = "", style }: ProductC
     </div>
   );
 }
+
